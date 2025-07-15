@@ -1,5 +1,5 @@
 *******************************************************
-** MyDataFort: Self-Hosted File Sanctuary
+## MyDataFort: Self-Hosted File Sanctuary
 #Overview
 The server runs on a linux machine(laptop) to enable remote file accessibility over the internet.
 
