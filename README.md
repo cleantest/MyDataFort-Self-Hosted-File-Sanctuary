@@ -73,7 +73,8 @@ FULL SETUP GUIDE
   
    #Add WireGuard Client Peers:
     On client device, install wireguard and have this in the config file.
-    ~NB~Copy the client's public key to the peer section of the server config file(wg0.conf) and the server's public key to the client's 
+    
+   NB//~ Copy the client's public key to the peer section of the server config file(wg0.conf) and the server's public key to the client's config file. 
     
     [Interface]
     PrivateKey = <Client_Private_Key>
@@ -87,6 +88,7 @@ FULL SETUP GUIDE
     PersistentKeepalive = 25
 
 File Browser Setup(Web File Manager)
+
   Download & Install:
   
     curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
@@ -114,12 +116,15 @@ File Browser Setup(Web File Manager)
       sudo systemctl enable filebrowser
       sudo systemctl start filebrowser
   ##Access File Browser on client device via:
+  
     http://<LAN_IP or via VPN:
     http://10.0.0.1:8080
 
 PORT FORWARDING AND REMOTE ACCESS
+
     Log into your router. 192.168.XX.1 
     Search for virtual settings and forward UDP 51820 to your server’s LAN IP (for WireGuard).
 
 You now have secure remote access to your files from anywhere globally.
+
 Congratulations and enjoy your extra storage space :)
