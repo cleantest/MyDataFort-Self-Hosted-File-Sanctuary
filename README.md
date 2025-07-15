@@ -4,28 +4,28 @@
 The server runs on a linux machine(laptop) to enable remote file accessibility over the internet.
 
 ## Features
-- **Secure Remote Access: Encrypted file transfers via WireGuard VPN
-- **Web-Based Management: Intuitive FileBrowser interface for file operations
-- **Dynamic DNS: DuckDNS for consistent domain access without static IP
-- **Lightweight OS: Lubuntu minimizes resource usage
-- **Cross-Platform: Accessible from any device (web/WireGuard client)
+- Secure Remote Access: Encrypted file transfers via WireGuard VPN
+- Web-Based Management: Intuitive FileBrowser interface for file operations
+- Dynamic DNS: DuckDNS for consistent domain access without static IP
+- Lightweight OS: Lubuntu minimizes resource usage
+- Cross-Platform: Accessible from any device (web/WireGuard client)
 
 ***Technologies Used
 - Lubuntu	OS -- Lightweight Linux OS host
-- DuckDNS --	Free dynamic DNS service
-- FileBrowser--	Web-based file manager
+- DuckDNS -- Free dynamic DNS service
+- FileBrowser-- Web-based file manager
 - WireGuard	VPN -- for secure remote access
 - Nginx (Optional) --	Reverse proxy for HTTPS
 
 ***Prerequisites
-            1.Hardware: x86/ARM machine (even Raspberry Pi)
-                        1GB+ RAM, 10GB+ storage
+ - Hardware: x86/ARM machine (even Raspberry Pi)
+            1GB+ RAM, 10GB+ storage
             
-            2.Network: Ports 80, 443 (HTTP/HTTPS), 51820 (WireGuard) forwarded
-                      Router with dynamic DNS support (for DuckDNS)
+ - Network: Ports 80, 443 (HTTP/HTTPS), 51820 (WireGuard) forwarded
+   Router with dynamic DNS support (for DuckDNS)
             
-            3.Accounts: DuckDNS subdomain registered
-            4.Internet connectivity on both server and client devices.
+ - Accounts: DuckDNS subdomain registered
+ - Internet connectivity on both server and client devices.
 
 FULL SETUP GUIDE
 
