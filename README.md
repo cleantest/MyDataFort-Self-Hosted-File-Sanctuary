@@ -4,28 +4,28 @@
 The server runs on a linux machine(laptop) to enable remote file accessibility over the internet.
 
 Features
-1.Secure Remote Access: Encrypted file transfers via WireGuard VPN
-2.Web-Based Management: Intuitive FileBrowser interface for file operations
-3.Dynamic DNS: DuckDNS for consistent domain access without static IP
-4.Lightweight OS: Lubuntu minimizes resource usage
-5.Cross-Platform: Accessible from any device (web/WireGuard client)
+            1.Secure Remote Access: Encrypted file transfers via WireGuard VPN
+            2.Web-Based Management: Intuitive FileBrowser interface for file operations
+            3.Dynamic DNS: DuckDNS for consistent domain access without static IP
+            4.Lightweight OS: Lubuntu minimizes resource usage
+            5.Cross-Platform: Accessible from any device (web/WireGuard client)
 
 ***Technologies Used
-1.Lubuntu	OS -- Lightweight Linux OS host
-2.DuckDNS --	Free dynamic DNS service
-3.FileBrowser--	Web-based file manager
-4.WireGuard	VPN -- for secure remote access
-5.Nginx (Optional) --	Reverse proxy for HTTPS
+            1.Lubuntu	OS -- Lightweight Linux OS host
+            2.DuckDNS --	Free dynamic DNS service
+            3.FileBrowser--	Web-based file manager
+            4.WireGuard	VPN -- for secure remote access
+            5.Nginx (Optional) --	Reverse proxy for HTTPS
 
 ***Prerequisites
-1.Hardware: x86/ARM machine (even Raspberry Pi)
-            1GB+ RAM, 10GB+ storage
-
-2.Network: Ports 80, 443 (HTTP/HTTPS), 51820 (WireGuard) forwarded
-          Router with dynamic DNS support (for DuckDNS)
-
-3.Accounts: DuckDNS subdomain registered
-4.Internet connectivity on both server and client devices.
+            1.Hardware: x86/ARM machine (even Raspberry Pi)
+                        1GB+ RAM, 10GB+ storage
+            
+            2.Network: Ports 80, 443 (HTTP/HTTPS), 51820 (WireGuard) forwarded
+                      Router with dynamic DNS support (for DuckDNS)
+            
+            3.Accounts: DuckDNS subdomain registered
+            4.Internet connectivity on both server and client devices.
 
 FULL SETUP GUIDE
 
