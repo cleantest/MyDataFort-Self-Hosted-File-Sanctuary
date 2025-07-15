@@ -1,89 +1,124 @@
-# Remote-server
-Remote server on a linux machine to access local files remotely from anywhere.
+*******************************************************
+# Self Hosted Cloud Storage
+#Overview
+The server runs on a linux machine(laptop) to enable remote file accessibility over the internet.
 
-DUCKDNS 
-(Dynamic IP Updater)
-Create a duckdns account
-Get this by querying, 'whatismyip' on the browser
-After signing up on Duckdns, create a subdomain and enter your router's public IP
+Features
+1.Secure Remote Access: Encrypted file transfers via WireGuard VPN
+2.Web-Based Management: Intuitive FileBrowser interface for file operations
+3.Dynamic DNS: DuckDNS for consistent domain access without static IP
+4.Lightweight OS: Lubuntu minimizes resource usage
+5.Cross-Platform: Accessible from any device (web/WireGuard client)
 
-Install duckdns updater script
-mkdir -p ~/duckdns
-cd ~/duckdns
-nano duck.sh
+***Technologies Used
+1.Lubuntu	OS -- Lightweight Linux OS host
+2.DuckDNS --	Free dynamic DNS service
+3.FileBrowser--	Web-based file manager
+4.WireGuard	VPN -- for secure remote access
+5.Nginx (Optional) --	Reverse proxy for HTTPS
 
-Paste the following script (replace with YOUR_DOMAIN and YOUR_TOKEN)
-echo "url=https://www.duckdns.org/update?domains=YOUR_DOMAIN&token=YOUR_TOKEN&ip=" | curl -k -o ~/duckdns/duck.log -K -
+***Prerequisites
+1.Hardware: x86/ARM machine (even Raspberry Pi)
+            1GB+ RAM, 10GB+ storage
 
-Make Script Executable:
-chmod 700 duck.sh
+2.Network: Ports 80, 443 (HTTP/HTTPS), 51820 (WireGuard) forwarded
+          Router with dynamic DNS support (for DuckDNS)
 
-Automate with Cron:
-crontab -e
-*/5 * * * * ~/duckdns/duck.sh >/dev/null 2>&1
+3.Accounts: DuckDNS subdomain registered
+4.Internet connectivity on both server and client devices.
 
-Your subdomain will now automatically track changes in your router's IP
+FULL SETUP GUIDE
+
+****DUCKDNS CONFIGURATION
+
+    sudo apt install curl
+    mkdir ~/duckdns
+    echo 'echo url="https://www.duckdns.org/update?domains=YOURDOMAIN&token=YOURTOKEN" | curl -k -o ~/duckdns/duck.log -K -' > ~/duckdns/duck.sh
+    chmod +x ~/duckdns/duck.sh
+    */5 * * * * ~/duckdns/duck.sh >/dev/null 2>&1  # Add to crontab
+  
+  ##Your subdomain will now automatically track changes in your router's IP
 
 
-WIREGUARD SETUP
+****WIREGUARD VPN SETUP
 1.Install WireGuard:
 
-sudo apt update
-sudo apt install wireguard
+    sudo apt update
+    sudo apt install wireguard
+    sudo mkdir -p /etc/wireguard
+    cd /etc/wireguard
 
-Configure WireGuard Server:
-sudo mkdir -p /etc/wireguard
-cd /etc/wireguard
+2.Generate server/client pair private and public keys:
 
-Generate server private and public keys:
+    wg genkey | tee privatekey | wg pubkey > publickey
+    wg genkey | tee client_privatekey | wg pubkey > client_publickey
+  Create WireGuard Config (wg0.conf):
 
-wg genkey | tee privatekey | wg pubkey > publickey
-Create WireGuard Config (wg0.conf):
+    sudo nano /etc/wireguard/wg0.conf
+  Example wg0.conf(Server config file):
+    
+      [Interface]
+      Address = 10.0.0.1/24
+      ListenPort = 51820
+      PrivateKey = <Server_Private_Key>
+      
+      PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o <Your_Network_Interface> -j MASQUERADE
+      PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o <Your_Network_Interface> -j MASQUERADE
+      #Replace <Your_Network_Interface> (often eth0 or enp3s0) from ip a command.
+      
+   #Configure Firewall:
+    
+    sudo ufw allow 51820/udp
+  
+   #Add WireGuard Client Peers:
+    On client device, install wireguard and have this in the config file.
+    ~NB~Copy the client's public key to the peer section of the server config file(wg0.conf) and the server's public key to the client's 
+    
+    [Interface]
+    PrivateKey = <Client_Private_Key>
+    Address = 10.0.0.2/24
+    DNS = 1.1.1.1
+    
+    [Peer]
+    PublicKey = <Server_Public_Key>
+    Endpoint = your-duckdns-subdomain.duckdns.org:51820
+    AllowedIPs = 10.0.0.0/0 (Confines server traffic to only the vpn) (0.0.0.0/0 makes all traffic on the client pass through the VPN)
+    PersistentKeepalive = 25
 
-sudo nano /etc/wireguard/wg0.conf
-Example wg0.conf(config):
+File Browser Setup(Web File Manager)
+  Download & Install:
+  
+    curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
+      
+  Create a systemd Service: (This enables filebrowser to start automatically on boot)
+  
+      sudo nano /etc/systemd/system/filebrowser.service
+  //Paste this
+      
+      [Unit]
+      Description=File Browser
+      After=network.target
+      
+      [Service]
+      ExecStart=/usr/local/bin/filebrowser -r /home/your_user/desired_root_folder_to_share -p 8080
+      User=your_user
+      Restart=always
+      
+      [Install]
+      WantedBy=multi-user.target
+      
+      
+  ##Enable & Start File Browser:
+  
+      sudo systemctl enable filebrowser
+      sudo systemctl start filebrowser
+  ##Access File Browser on client device via:
+    http://<LAN_IP or via VPN:
+    http://10.0.0.1:8080
 
-[Interface]
-Address = 10.0.0.1/24
-ListenPort = 51820
-PrivateKey = <Server_Private_Key>
+PORT FORWARDING AND REMOTE ACCESS
+    Log into your router. 192.168.XX.1 
+    Search for virtual settings and forward UDP 51820 to your server’s LAN IP (for WireGuard).
 
-PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o <Your_Network_Interface> -j MASQUERADE
-PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o <Your_Network_Interface> -j MASQUERADE
-#Replace <Your_Network_Interface> (often eth0 or enp3s0) from ip a command.
-
-Configure Firewall:
-sudo ufw allow 51820/udp
-
-2.Enable & Start WireGuard:
-sudo systemctl enable wg-quick@wg0
-sudo systemctl start wg-quick@wg0
-
-
-Add WireGuard Client Peers:
-Generate client keys:
-
-wg genkey | tee client_privatekey | wg pubkey > client_publickey
-Edit /etc/wireguard/wg0.conf:
-
-[Peer]
-PublicKey = <Client_Public_Key>
-AllowedIPs = 10.0.0.2/32 (client's ip on vpn network)
-Share client config:
-
-[Interface]
-PrivateKey = <Client_Private_Key>
-Address = 10.0.0.2/24
-DNS = 1.1.1.1
-
-[Peer]
-PublicKey = <Server_Public_Key>
-Endpoint = your-duckdns-subdomain.duckdns.org:51820
-AllowedIPs = 10.0.0.0/0 (Confines server traffic to only the vpn) (0.0.0.0/0 makes all traffic on the client pass through the VPN)
-PersistentKeepalive = 25
-
-3.Install File Browser (Web File Manager)
-Download & Install:
-curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
-
-
+You now have secure remote access to your files from anywhere globally.
+Congratulations and enjoy your extra storage space :)
