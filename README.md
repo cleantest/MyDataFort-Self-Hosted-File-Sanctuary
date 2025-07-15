@@ -41,6 +41,7 @@ FULL SETUP GUIDE
 
 
 ****WIREGUARD VPN SETUP
+
 1.Install WireGuard:
 
     sudo apt update
