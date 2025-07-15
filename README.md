@@ -4,11 +4,11 @@
 The server runs on a linux machine(laptop) to enable remote file accessibility over the internet.
 
 Features
-            1.Secure Remote Access: Encrypted file transfers via WireGuard VPN
-            2.Web-Based Management: Intuitive FileBrowser interface for file operations
-            3.Dynamic DNS: DuckDNS for consistent domain access without static IP
-            4.Lightweight OS: Lubuntu minimizes resource usage
-            5.Cross-Platform: Accessible from any device (web/WireGuard client)
+            -**Secure Remote Access: Encrypted file transfers via WireGuard VPN
+            -**Web-Based Management: Intuitive FileBrowser interface for file operations
+            -**Dynamic DNS: DuckDNS for consistent domain access without static IP
+            -**Lightweight OS: Lubuntu minimizes resource usage
+            *--Cross-Platform: Accessible from any device (web/WireGuard client)
 
 ***Technologies Used
             1.Lubuntu	OS -- Lightweight Linux OS host
