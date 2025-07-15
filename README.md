@@ -11,11 +11,11 @@ The server runs on a linux machine(laptop) to enable remote file accessibility o
 - **Cross-Platform: Accessible from any device (web/WireGuard client)
 
 ***Technologies Used
-            1.Lubuntu	OS -- Lightweight Linux OS host
-            2.DuckDNS --	Free dynamic DNS service
-            3.FileBrowser--	Web-based file manager
-            4.WireGuard	VPN -- for secure remote access
-            5.Nginx (Optional) --	Reverse proxy for HTTPS
+- Lubuntu	OS -- Lightweight Linux OS host
+- DuckDNS --	Free dynamic DNS service
+- FileBrowser--	Web-based file manager
+- WireGuard	VPN -- for secure remote access
+- Nginx (Optional) --	Reverse proxy for HTTPS
 
 ***Prerequisites
             1.Hardware: x86/ARM machine (even Raspberry Pi)
